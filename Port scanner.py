@@ -1,5 +1,5 @@
 import socket
-def scan(url = 'www.google.com', PortStart = 0, PortEnd = 100):
+def scan(url, PortStart = 0, PortEnd = 100):
     for i in range(PortStart, PortEnd):
         a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         a_socket.settimeout(1)
