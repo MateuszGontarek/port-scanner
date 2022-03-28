@@ -1,22 +1,43 @@
 import socket
-def scan(url, PortStart = 0, PortEnd = 100):
+
+text = input()
+portStart = 0
+portEnd = 100
+timeout = 1.0
+lista = text.split()
+url = ''
+URLBylo = False
+TBylo = False
+PBylo = False
+
+def scan(url, PortStart, PortEnd,timeout):
+    print("\033[1;32;40m", end = "")
     for i in range(PortStart, PortEnd):
-        a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        a_socket.settimeout(1)
-        if a_socket.connect_ex((url, i)) == 0: 
-            print("\033[1;32;40m")
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(timeout)
+        if s.connect_ex((url, i)) == 0: 
             print(i, " Port is open")
-        else: 
-            print("\033[1;31;40m")
-            print(i, " Port is not open")
-        a_socket.close()
+        s.close()
 
-url = input('Specify url: ')
-wants = input('Do you want to specify port range: ')
+i = 0
+while i < len(lista):
+    if lista[i] == '-p':
+        portStart = int(lista[i + 1])
+        portEnd = int(lista[i + 2])
+        PBylo = True
+    elif lista[i] == '-T':
+        timeout = float(lista[i + 1])
+        TBylo = True
+    elif not URLBylo:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(0.1)
+            s.connect((lista[i], 80))
+            url = lista[i]
+            URLBylo = True
+        except:
+            pass
+    print(lista[i])
+    i += 1
 
-if wants == 'yes':
-    portStart = int(input('The port you want to start: '))
-    portEnd = int(input('The port you want to end: '))
-    scan(url, portStart, portEnd)
-else: 
-    scan(url)
+scan(url, portStart, portEnd, timeout)
