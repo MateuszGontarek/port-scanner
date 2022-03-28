@@ -20,12 +20,12 @@ def scan(url, PortStart, PortEnd,timeout):
         s.close()
 
 i = 0
-while i < len(lista):
+while i < len(lista) and not PBylo:
     if lista[i] == '-p':
         portStart = int(lista[i + 1])
         portEnd = int(lista[i + 2])
         PBylo = True
-    elif lista[i] == '-T':
+    elif lista[i] == '-T' and not TBylo:
         timeout = float(lista[i + 1])
         TBylo = True
     elif not URLBylo:
@@ -37,7 +37,6 @@ while i < len(lista):
             URLBylo = True
         except:
             pass
-    print(lista[i])
     i += 1
 
 scan(url, portStart, portEnd, timeout)
